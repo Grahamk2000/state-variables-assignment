@@ -26,6 +26,7 @@ float obstacleYI;
 int level = 0;
 float obstacleDiam;
 float state = 0;
+float obstacleSpeed = 5;
 
 
 
@@ -39,38 +40,89 @@ void setup() { // sets the size of the screen
 
 void draw() { 
 
-  if (state == 0){
+  if (state == 0){ // choose between moving and static obstacles
     homeScreen();
   }
   
-  if (state == 2) {
-    retryScreen(); 
-  }
-    
-  if (keyPressed == true) {
-    state = 1;
-    level = 0;
-  }
-  
   if (state == 1) { 
+    checkForNewLevel();
     drawBall();
     drawObstacle();
   }
+  
+  if (state == 2) {
+    checkForNewLevel();
+    drawBall();
+    moveObstacles();
+    drawObstacle();
+
+  }
+  
+  if (state == 3) {
+    retryScreen(); 
+
+
+  }
+    
+  
+
 }
 
 void homeScreen() { // the first screen you see
   background(0);
+  fill(255, 0, 0);
+  rect(0, 0, width/2, height);
   textSize(32);
-  text("Press any key to play a game", 10, 30);
+  fill(255);
+  text("Click this side to play, without moving obstacles", 10, 30, (width/3), height);
+  text("Click this side to play with static obstacles", ((width/2) + 10), 30, (width/3), height);
+  //fill(255, 0, 0);
+  //rect(0, 0, width/2, height);
+  if (mousePressed == true) {
+    
+    if (mouseX < (width/2)) {
+      state = 1;
+    }
+    if (mouseX > (width/2)) {
+      state = 2;
+    }
+  }
 }
   
 void retryScreen() { // this screen is shown after contact is made with an obstacle
   background(0);
   textSize(32);
   text("Press any key to play again", 10, 30);  
-  text("You made it to level" + " " + (level) + "!", 10, 70);  
+  text("You made it to level" + " " + (level) + "!", 10, 70); 
+  if (keyPressed == true) {
+    level = 0;
+    state = 0;
+  }
 
 }
+void checkForNewLevel() {
+  if (xPosition >= (width - 100))  {
+    xPosition = 100; // moves ball to left side of screen whne it reaches the right side
+    if (speed < 20) { 
+      speed = (speed + .5); // adds 0.5 to ball speed every after every level
+      }
+      
+    randomColour = color(random(255), random(255), random(255)); // chooses a random colour at the start of every level
+    
+    obstacleYA = random(75, (height - 100)); // chooses y position of obstacles at the start of every level
+    obstacleYB = random(75, (height - 100));
+    obstacleYC = random(75, (height - 100));
+    obstacleYD = random(75, (height - 100));
+    obstacleYE = random(75, (height - 100));
+    obstacleYF = random(75, (height - 100));
+    obstacleYG = random(75, (height - 100));
+    obstacleYH = random(75, (height - 100));
+
+    obstacleDiam = random(40, 100); // chooses diameter of obstacles at the start of every level
+    level = level + 1;
+  }
+}
+
 
 
 void drawBall() { //draws the ball used in the game  
@@ -82,26 +134,26 @@ void drawBall() { //draws the ball used in the game
   
   xPosition = (xPosition + speed); // moves ball from left to right at by a distance of the variable "speed"
   contactDetect();
-    if (xPosition >= (width - 100))  {
-      xPosition = 100; // moves ball to left side of screen whne it reaches the right side
-      if (speed < 20) { 
-        speed = (speed + .5); // adds 0.5 to ball speed every after every level
-      }
+    //if (xPosition >= (width - 100))  {
+    //  xPosition = 100; // moves ball to left side of screen whne it reaches the right side
+    //  if (speed < 20) { 
+    //    speed = (speed + .5); // adds 0.5 to ball speed every after every level
+    //  }
       
-      randomColour = color(random(255), random(255), random(255)); // chooses a random colour at the start of every level
+    //  randomColour = color(random(255), random(255), random(255)); // chooses a random colour at the start of every level
       
-      obstacleYA = random(75, (height - 100)); // chooses y position of obstacles at the start of every level
-      obstacleYB = random(75, (height - 100));
-      obstacleYC = random(75, (height - 100));
-      obstacleYD = random(75, (height - 100));
-      obstacleYE = random(75, (height - 100));
-      obstacleYF = random(75, (height - 100));
-      obstacleYG = random(75, (height - 100));
-      obstacleYH = random(75, (height - 100));
+    //  obstacleYA = random(75, (height - 100)); // chooses y position of obstacles at the start of every level
+    //  obstacleYB = random(75, (height - 100));
+    //  obstacleYC = random(75, (height - 100));
+    //  obstacleYD = random(75, (height - 100));
+    //  obstacleYE = random(75, (height - 100));
+    //  obstacleYF = random(75, (height - 100));
+    //  obstacleYG = random(75, (height - 100));
+    //  obstacleYH = random(75, (height - 100));
 
-      obstacleDiam = random(40, 100); // chooses diameter of obstacles at the start of every level
-      level = level + 1;
-    }
+    //  obstacleDiam = random(40, 100); // chooses diameter of obstacles at the start of every level
+    //  level = level + 1;
+    //}
   
   fill(randomColour);
   ellipse(xPosition,yPosition,diam,diam); // draws the ball
@@ -131,6 +183,11 @@ void drawObstacle() { //draws the obstacles
 }
 
 
+void moveObstacles() {
+  
+  
+}
+
 void contactDetect() { // detects any contact between the ball and obstacles and ends the game if contact occurs
   float yPosition = constrain(mouseY, 100, (height - 100));
   if ((yPosition >= obstacleYA) && (yPosition <= (obstacleYA + obstacleDiam))
@@ -158,7 +215,7 @@ void contactDetect() { // detects any contact between the ball and obstacles and
     && (xPosition >= (width/6*3) && (xPosition <= (width/6*3) + obstacleDiam))) {
     
     
-    state = 2; //resets the game
+    state = 3; //resets the game
     xPosition = 100;
     obstacleDiam = 0;   
     speed = 7;
