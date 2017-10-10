@@ -29,6 +29,7 @@ float state = 0;
 float obstacleSpeed = 5;
 //float randomObsY = random(75, (height - 100));
 int[] obsY = new int[8];
+int[] obsX = new int[8];
 
 
 
@@ -36,8 +37,12 @@ void setup() { // sets the size of the screen
   size(1200, 800);
   background(0);
   for (int i=0; i<obsY.length; i++) {
-    obsY[i] = int(random(75, (height - 100)));
+    obsY[i] = int(random(100, (height - 100)));
   }
+  for (int i=0; i<obsX.length; i++) {
+  obsX[i] = int(random(100, (width - 100)));
+  }
+  
 }
 
 
@@ -145,10 +150,10 @@ void drawObstacle() { //draws the obstacles
 
   noStroke();
 
-  rect((width/2), obsY[0], obstacleDiam, obstacleDiam);
-  rect((width/3), obsY[1], obstacleDiam, obstacleDiam);
-  rect((width/4), obsY[2], obstacleDiam, obstacleDiam);
-  rect((width/2*1.5), obsY[3], obstacleDiam, obstacleDiam);
+  rect(obsX[0], obsY[0], obstacleDiam, obstacleDiam);
+  rect(obsX[1], obsY[1], obstacleDiam, obstacleDiam);
+  rect(obsX[2], obsY[2], obstacleDiam, obstacleDiam);
+  rect(obsX[3], obsY[3], obstacleDiam, obstacleDiam);
   rect((width/6*5), obsY[4], obstacleDiam, obstacleDiam);
   rect((width/3*2), obsY[5], obstacleDiam, obstacleDiam);
   rect((width/5*2), obsY[6], obstacleDiam, obstacleDiam);
