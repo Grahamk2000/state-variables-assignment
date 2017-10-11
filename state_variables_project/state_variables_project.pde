@@ -30,6 +30,7 @@ float obstacleSpeed = 5;
 //float randomObsY = random(75, (height - 100));
 int[] obsY = new int[8];
 int[] obsX = new int[8];
+boolean obstacleUpOrDown;
 
 
 
@@ -65,8 +66,9 @@ void draw() {
   if (state == 2) {
     checkForNewLevel();
     drawBall();
-    moveObstacles();
+
     drawObstacle();
+    moveObstacles();
   }
 
   if (state == 3) {
@@ -87,10 +89,10 @@ void homeScreen() { // the first screen you see
   if (mousePressed == true) {
 
     if (mouseX < (width/2)) {
-      state = 1;
+      state = 2;
     }
     if (mouseX > (width/2)) {
-      state = 2;
+      state = 1;
     }
   }
 }
@@ -114,7 +116,8 @@ void checkForNewLevel() {
 
     randomColour = color(random(255), random(255), random(255)); // chooses a random colour at the start of every level
 
-
+    obstacleSpeed = random(-5, 5 );
+    
     obstacleDiam = random(40, 100); // chooses diameter of obstacles at the start of every level
     chooseNewObsatcleLocations();
     level = level + 1;
@@ -172,6 +175,16 @@ void drawObstacle() { //draws the obstacles
 
 
 void moveObstacles() {
+  
+  for (int i = 0; i < obsY.length; i++) {
+    if (i % 2 == 0){ 
+      obsY[i] = obsY[i] + int(obstacleSpeed);
+    }
+    else {
+      obsY[i] = obsY[i] - int(obstacleSpeed);
+    }
+  }
+  
 }
 
 void contactDetect() { // detects any contact between the ball and obstacles and ends the game if contact occurs
