@@ -36,12 +36,16 @@ int[] obsX = new int[8];
 void setup() { // sets the size of the screen
   size(1200, 800);
   background(0);
-  for (int i=0; i<obsY.length; i++) {
-    obsY[i] = int(random(100, (height - 100)));
-  }
-  for (int i=0; i<obsX.length; i++) {
-  obsX[i] = int(random(100, (width - 100)));
-  }
+  
+  
+  
+  
+  //for (int i=0; i<obsY.length; i++) {
+  //  obsY[i] = int(random(100, (height - 100)));
+  //}
+  //for (int i=0; i<obsX.length; i++) {
+  //obsX[i] = int(random(100, (width - 100)));
+  //}
   
 }
 
@@ -112,6 +116,7 @@ void checkForNewLevel() {
 
 
     obstacleDiam = random(40, 100); // chooses diameter of obstacles at the start of every level
+    chooseNewObsatcleLocations();
     level = level + 1;
   }
 }
@@ -141,24 +146,26 @@ void drawCourt() { // draws the screen used for the game
   text(level, 10, 30);
 }
 
-void drawObstacle() { //draws the obstacles
-  //randomObsY = random(75, (height - 100));
+void chooseNewObsatcleLocations() {
+  for (int i=0; i<obsY.length; i++) {
+    obsY[i] = int(random(100, (height - 100)));
+  }
+  for (int i=0; i<obsX.length; i++) {
+    obsX[i] = int(random (width/4, (width - 100)));
+  }
+  
+  
+}
 
+void drawObstacle() { //draws the obstacles
 
   fill(randomColour);
 
 
   noStroke();
-
-  rect(obsX[0], obsY[0], obstacleDiam, obstacleDiam);
-  rect(obsX[1], obsY[1], obstacleDiam, obstacleDiam);
-  rect(obsX[2], obsY[2], obstacleDiam, obstacleDiam);
-  rect(obsX[3], obsY[3], obstacleDiam, obstacleDiam);
-  rect((width/6*5), obsY[4], obstacleDiam, obstacleDiam);
-  rect((width/3*2), obsY[5], obstacleDiam, obstacleDiam);
-  rect((width/5*2), obsY[6], obstacleDiam, obstacleDiam);
-  rect((width/6*3), obsY[7], obstacleDiam, obstacleDiam);
-  println(obsY[3]);
+  for (int i = 0; i < obsY.length; i++) {
+    rect(obsX[i], obsY[i], obstacleDiam, obstacleDiam);
+  }
 }
 
 
@@ -172,28 +179,7 @@ void contactDetect() { // detects any contact between the ball and obstacles and
 
     float yPosition = constrain(mouseY, 100, (height - 100));
     if ((yPosition >= obsY[i]) && (yPosition <= (obsY[i] + obstacleDiam)) 
-      && (xPosition >= (width/2) && (xPosition <= (width/2) + obstacleDiam))){
-
-      //(yPosition >= obsY[1]) && (yPosition <= (obsY[1] + obstacleDiam))
-      //&& (xPosition >= (width/3) && (xPosition <= (width/3) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[2]) && (yPosition <= (obsY[2] + obstacleDiam))
-      //&& (xPosition >= (width/4) && (xPosition <= (width/4) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[3]) && (yPosition <= (obsY[3] + obstacleDiam))
-      //&& (xPosition >= (width/2*1.5) && (xPosition <= (width/2*1.5) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[4]) && (yPosition <= (obsY[4] + obstacleDiam))
-      //&& (xPosition >= (width/6*5) && (xPosition <= (width/6*5) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[5]) && (yPosition <= (obsY[5] + obstacleDiam))
-      //&& (xPosition >= (width/3*2) && (xPosition <= (width/3*2) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[6]) && (yPosition <= (obsY[6] + obstacleDiam))
-      //&& (xPosition >= (width/5*2) && (xPosition <= (width/5*2) + obstacleDiam)) ||
-
-      //(yPosition >= obsY[7]) && (yPosition <= (obsY[7] + obstacleDiam))
-      //&& (xPosition >= (width/6*3) && (xPosition <= (width/6*3) + obstacleDiam))) {
+      && (xPosition >= (obsX[i]) && (xPosition <= (obsX[i]) + obstacleDiam))){
 
 
       state = 3; //resets the game
