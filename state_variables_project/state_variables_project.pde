@@ -80,12 +80,17 @@ void homeScreen() { // the first screen you see
   background(0);
   fill(255, 0, 0);
   rect(0, 0, width/2, height);
+  fill(0, 0, 255);
+  rect(width/2, 0, width/2, height);
   textSize(32);
   fill(255);
   text("Click this side to play with moving obstacles", 10, 30, (width/3), height);
   text("Click this side to play with static obstacles", ((width/2) + 10), 30, (width/3), height);
   //fill(255, 0, 0);
   //rect(0, 0, width/2, height);
+
+  
+  
   if (mousePressed == true) {
 
     if (mouseX < (width/2)) {
@@ -111,7 +116,7 @@ void checkForNewLevel() {
   if (xPosition >= (width - 100)) {
     xPosition = 100; // moves ball to left side of screen whne it reaches the right side
     if (speed < 20) { 
-      speed = (speed + .5); // adds 0.5 to ball speed every after every level
+      speed = (speed + 1); // adds 0.5 to ball speed every after every level
     }
 
     randomColour = color(random(255), random(255), random(255)); // chooses a random colour at the start of every level
